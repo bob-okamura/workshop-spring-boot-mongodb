@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.bobhome.workshopmongo.domain.User;
 import com.bobhome.workshopmongo.dto.UserDTO;
 import com.bobhome.workshopmongo.repositories.UserRepositoty;
+import com.bobhome.workshopmongo.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class UserService {
@@ -25,7 +26,7 @@ public class UserService {
 
 	public UserDTO findById(String id) {
 		Optional<User> obj = repository.findById(id);
-		User entity = obj.get();
+		User entity = obj.orElseThrow(() -> new ResourceNotFoundException(id));
 		return new UserDTO(entity);
 	}
 	
